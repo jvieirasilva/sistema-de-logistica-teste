@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+
+	<local-tx-datasource>
+		<jndi-name>jdbc/sistema-de-logistica</jndi-name>
+		<connection-url>
+			jdbc:mariadb://localhost:3306/sistemadelogisticadb
+		</connection-url>
+		<driver-class>org.mariadb.jdbc.Driver</driver-class>
+		
+		<user-name>root</user-name>
+		<password>??????</password>
+		
+		<min-pool-size>1</min-pool-size>
+		<max-pool-size>3</max-pool-size>
+		
+		<metadata>
+			<type-mapping>MariaDB</type-mapping>
+		</metadata>
+		
+		<use-java-context>false</use-java-context>
+		
+	</local-tx-datasource>
+
+</datasources>
