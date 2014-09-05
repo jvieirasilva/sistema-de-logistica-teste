@@ -29,11 +29,7 @@
 			<artifactId>vraptor</artifactId>
 			<version>3.5.3</version>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.2.8.Final</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.jumpmind.symmetric.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
