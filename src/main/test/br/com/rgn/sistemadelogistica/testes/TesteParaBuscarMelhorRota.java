@@ -83,20 +83,23 @@ public class TesteParaBuscarMelhorRota {
 	}
 	
 	@Test
-	public void buscarRotaTeste1(){
-		Mapa esteMapa = criarMapaParaTeste1();
+	public void buscarRotaTesteDeApraD(){
+		Mapa esteMapa = criarMapaParaTesteDeApraD();
 		RastreadorDeRotas rastreadorDeRotas = new RastreadorDeRotas();
 		rastreadorDeRotas.encontrarMelhorRotaPara(esteMapa);
 		MelhorRota melhorRota = esteMapa.getMelhorRota();
-		// com esses dados, melhor rota deve ser A B D com custo de 6,75
 		
-		Assert.assertTrue( "Não obteve rota!", isMelhorRotaComPontos(melhorRota) );
-		Assert.assertTrue( "Não calculou custo!", isMelhorRotaComCusto(melhorRota) );
-		Assert.assertTrue( "Não é a rota esperada A B D!", melhorRota.getPontos().contains("A,B,D") );
-		Assert.assertTrue( "Não é o custo esperado 6,75!", melhorRota.getCusto().doubleValue() == 6.75 );
+		boolean isMelhorRotaComPontos = melhorRota != null && melhorRota.getCusto() != null &&  melhorRota.getCusto() > 0.0;
+		boolean isMelhorRotaComCusto = melhorRota != null && melhorRota.getPontos() != null && !melhorRota.getPontos().trim().equals("");
+		boolean isRotaEsperada = melhorRota.getPontos().contains("A,B,D");
+		boolean isCustoEsperado = melhorRota.getCusto().doubleValue() == 6.25;
+		Assert.assertTrue( "Não obteve rota!", isMelhorRotaComPontos );
+		Assert.assertTrue( "Não calculou custo!", isMelhorRotaComCusto );
+		Assert.assertTrue( "Não é a rota esperada A B D!\nVeio " + melhorRota.getPontos(), isRotaEsperada );
+		Assert.assertTrue( "Não é o custo esperado 6,25!\nVeio " + melhorRota.getCusto(), isCustoEsperado );
 	}
 
-	private Mapa criarMapaParaTeste1() {
+	private Mapa criarMapaParaTesteDeApraD() {
 		char origem = 'A';
 		char destino = 'D';
 		Double autonomia = 10.0;
@@ -107,12 +110,27 @@ public class TesteParaBuscarMelhorRota {
 		return esteMapa;
 	}
 	
-	private boolean isMelhorRotaComCusto(MelhorRota melhorRota) {
-		return melhorRota != null && melhorRota.getCusto() != null &&  melhorRota.getCusto() > 0.0;
+	@Test
+	public void buscarRotaTesteDeEpraA(){
+		Mapa esteMapa = criarMapaParaTesteDeEpraA();
+		RastreadorDeRotas rastreadorDeRotas = new RastreadorDeRotas();
+		rastreadorDeRotas.encontrarMelhorRotaPara(esteMapa);
+		MelhorRota melhorRota = esteMapa.getMelhorRota();
+		boolean isRotaEsperada = melhorRota.getPontos().contains("E,D,B,A");
+		boolean isCustoEsperado = melhorRota.getCusto().doubleValue() == 6.25;
+		Assert.assertTrue( "Não é a rota esperada E D B A!\nVeio " + melhorRota.getPontos(), isRotaEsperada );
+		Assert.assertTrue( "Não é o custo esperado 6,25!\nVeio " + melhorRota.getCusto(), isCustoEsperado );
 	}
-
-	private boolean isMelhorRotaComPontos(MelhorRota melhorRota) {
-		return melhorRota != null && melhorRota.getPontos() != null && !melhorRota.getPontos().trim().equals("");
+	
+	private Mapa criarMapaParaTesteDeEpraA() {
+		char origem = 'E';
+		char destino = 'A';
+		Double autonomia = 12.0;
+		Double valorDoLitro = 2.80;
+		RotaAhProcurar rotaAhProcurar = new RotaAhProcurar(origem, destino, autonomia, valorDoLitro);
+		Mapa esteMapa = new Mapa("Rota de E a A", rotaAhProcurar);
+		
+		return esteMapa;
 	}
 	
 }

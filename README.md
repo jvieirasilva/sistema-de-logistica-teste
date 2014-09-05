@@ -1,6 +1,16 @@
 sistema-de-logistica-teste
 =============================
 
+Esta aplicação Java foi desenvolvida no Eclipse Kepler Release 1, e usa o banco de dados MariaDB.
+Use Eclipse Kepler Release 1 ou superior.
+O MariaDB deve ser instalado, mantido a porta 3306, que é a mesma do MySQL.
+Os dados de configuração do MariaDB são alterados em:
+context.xml (xml de datasource para o Tomcat)
+sistema-de-logistica-ds.xml (xml de datasource para colocar no JBoss)
+DataConnectionFactory.java (classe que conecta no banco, tanto por JDBC direto como por pool de conexão do AppServer)
+No MariaDB deve rodar o arquivo sistema-de-logistica-estrutura-1-mariadb.sql , que está na raíz desse repositório, 
+e ele criará o banco de dados e as tabelas vazias.
+
 Enunciado
 
 Uma empresa brasileira está desenvolvendo um novo sistema de logística e a tarefa será desenvolver o novo sistema de entregas visando sempre o menor custo.

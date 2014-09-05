@@ -1,6 +1,7 @@
 package br.com.rgn.sistemadelogistica.facade;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.jws.WebMethod;
@@ -50,25 +51,49 @@ public class RastreadorDeRotas {
 		boolean caminhocrescente = rotaAhProc.getOrigem() < rotaAhProc.getDestino();
 		
 		List<Rota> rotas = malhaLogistica.getRotas();
+		if(!caminhocrescente){
+			Collections.reverse(rotas);
+		}
 		
 		for(Rota rota: rotas){
-			if(rota.getOrigem() == rotaAhProc.getOrigem()){
-				if(!pontos.toString().contains(rota.getOrigem().toString())){
-					pontos.append(rota.getOrigem());
-					distancia += rota.getDistanciaEmKM();
+			if(caminhocrescente){
+				if(rota.getOrigem() == rotaAhProc.getOrigem()){
+					if(!pontos.toString().contains(rota.getOrigem().toString())){
+						pontos.append(rota.getOrigem());
+						distancia += rota.getDistanciaEmKM();
+					}
+				}
+				if(rota.getDestino() == rotaAhProc.getDestino()){
+					if(!pontos.toString().contains(rota.getDestino().toString())){
+						if(!pontos.toString().contains(rota.getOrigem().toString())){
+							pontos.append(",");
+							pontos.append(rota.getOrigem());
+						}
+						pontos.append(",");
+						pontos.append(rota.getDestino());
+						distancia += rota.getDistanciaEmKM();
+					}
+				}
+			}else{
+				if(rota.getDestino() == rotaAhProc.getDestino()){
+					if(!pontos.toString().contains(rota.getDestino().toString())){
+						pontos.append(rota.getDestino());
+						distancia += rota.getDistanciaEmKM();
+					}
+				}
+				if(rota.getOrigem() == rotaAhProc.getOrigem()){
+					if(!pontos.toString().contains(rota.getOrigem().toString())){
+						if(!pontos.toString().contains(rota.getDestino().toString())){
+							pontos.append(",");
+							pontos.append(rota.getDestino());
+						}
+						pontos.append(",");
+						pontos.append(rota.getOrigem());
+						distancia += rota.getDistanciaEmKM();
+					}
 				}
 			}
-			if(rota.getDestino() == rotaAhProc.getDestino()){
-				if(!pontos.toString().contains(rota.getOrigem().toString())){
-					pontos.append(",");
-					pontos.append(rota.getOrigem());
-				}
-				if(!pontos.toString().contains(rota.getDestino().toString())){
-					pontos.append(",");
-					pontos.append(rota.getDestino());
-					distancia += rota.getDistanciaEmKM();
-				}
-			}
+			
 		}
 		
 		definirMelhorRota(esteMapaComRotaPraProcurar, pontos, distancia);
@@ -78,7 +103,7 @@ public class RastreadorDeRotas {
 	
 	private void definirMelhorRota(Mapa esteMapa, StringBuilder pontos,
 			Double distancia) {
-		// a conta eh esta
+		// a formula para calcular o custo
 		Double autonomia = esteMapa.getRotaAhProcurar().getAutonomiaDoCaminhaoEmKMl();
 		Double valor = esteMapa.getRotaAhProcurar().getLitroDoCombustivel();
 		Double custo = (distancia / autonomia) * valor;

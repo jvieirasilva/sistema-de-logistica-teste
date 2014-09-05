@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ public class MalhaLogisticaDAO {
 	
 	public List<Rota> consultarRotas() throws SQLException{
 		try{
-			this.conexao = DataConnectionFactory.getConexao();
+			this.conexao = DataConnectionFactory.getConexaoViaJDBC();
 			List<Rota> rotas = new ArrayList<Rota>();
 			
 			String colunaId = "ID";
@@ -49,7 +50,7 @@ public class MalhaLogisticaDAO {
 				rota.setDistanciaEmKM(rs.getDouble(colunaDistanciaEmKm));
 				rotas.add(rota);
 			}
-			
+			Collections.sort(rotas);
 			return rotas;
 			
 		}catch(SQLException erroDeCRUD){
@@ -77,7 +78,7 @@ public class MalhaLogisticaDAO {
 	
 	public boolean adicionar(Rota rota) throws SQLException{
 		try{
-			this.conexao = DataConnectionFactory.getConexao();
+			this.conexao = DataConnectionFactory.getConexaoViaJDBC();
 			
 			String colunaOrigem = "ORIGEM";
 			String colunaDestino = "DESTINO";
@@ -117,7 +118,7 @@ public class MalhaLogisticaDAO {
 	
 	public boolean adicionar(Mapa mapa) throws SQLException {
 		try{
-			this.conexao = DataConnectionFactory.getConexao();
+			this.conexao = DataConnectionFactory.getConexaoViaJDBC();
 			
 			String colunaNome = "NOME";
 			String colunaAutonomiaDoCaminhao = "AUTONOMIA_DO_CAMINHAO_EM_KM_L";
